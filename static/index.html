@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>This is my Giphy Search</title>
+	</head>
+	<body>
+		<input type="text" name="q" placeholder="Search for GIFs...">
+		<button>Search</button>
+		<div id='display'></div>
+
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script>
+			$('button').on('click', function(e){
+				e.preventDefault();
+				var query = $('input').val();
+				$.get('/search/' + query).done(function(response, data){
+					console.log(data);
+					var results = response.data;
+					for(i=0; i<results.length; i++){
+						addSearchResult(results[i].images.fixed_height.url);
+					}
+				});
+				$('h1').hide();
+			});
+
+			function addSearchResult(result){
+				var image = $('<img />', {
+					src: result
+				});
+				image.appendTo('#display')
+			}
+		</script>
+	</body>
+</html>
